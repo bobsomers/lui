@@ -33,6 +33,6 @@ solution "thermyte"
       defines { "NDEBUG" }
       flags { "OptimizeSpeed", "Symbols", "ExtraWarnings" }
 
-    configuration { "maxosx" }
-      links { "glfw" }
+    configuration { "macosx" }
+      links { "epoxy", "glfw3" }
       linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo", "-framework Carbon" }
