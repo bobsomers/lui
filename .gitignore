@@ -1,4 +1,1 @@
-obj/
-Makefile
-thermyte
-thermyte.make
+build/
