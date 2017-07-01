@@ -11,28 +11,56 @@ solution "thermyte"
 
     configuration "Debug"
       defines { "DEBUG" }
-      flags { "Symbols", "ExtraWarnings" }
+      flags {
+        "Symbols",
+        "ExtraWarnings",
+      }
 
     configuration "Release"
       defines { "NDEBUG" }
-      flags { "OptimizeSpeed", "ExtraWarnings" }
+      flags {
+        "OptimizeSpeed",
+        "ExtraWarnings",
+      }
 
   project "thermyte"
     kind "ConsoleApp"
     language "C"
-    includedirs { "src", "deps/nanovg/src" }
+    includedirs {
+      "src",
+      "deps/nanovg/src",
+    }
     files { "src/*.c" }
     targetdir "build"
-    links { "nanovg" }
+    links {
+      "epoxy",
+      "glfw3",
+      "nanovg",
+      "luajit"
+    }
 
     configuration "Debug"
       defines { "DEBUG" }
-      flags { "Symbols", "ExtraWarnings" }
+      flags {
+        "Symbols",
+        "ExtraWarnings",
+      }
 
     configuration "Release"
       defines { "NDEBUG" }
-      flags { "OptimizeSpeed", "Symbols", "ExtraWarnings" }
+      flags {
+        "OptimizeSpeed",
+        "Symbols",
+        "ExtraWarnings",
+      }
 
     configuration { "macosx" }
-      links { "epoxy", "glfw3" }
-      linkoptions { "-framework OpenGL", "-framework Cocoa", "-framework IOKit", "-framework CoreVideo", "-framework Carbon" }
+      linkoptions {
+        "-framework OpenGL",
+        "-framework Cocoa",
+        "-framework IOKit",
+        "-framework CoreVideo",
+        "-framework Carbon",
+        "-pagezero_size 10000",
+        "-image_base 100000000",
+      }
