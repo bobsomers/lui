@@ -4,7 +4,7 @@
  - [x] Load empty window with GL3 context
  - [x] Draw something simple with NanoVG from C
  - [x] Hook up LuaJIT and call a hello world Lua function
- - [ ] Hook up a simple NanoVG call via FFI and call it from Lua
+ - [x] Hook up a simple NanoVG call via FFI and call it from Lua
 
 ## Dependencies
  - [x] Vendor NanoVG

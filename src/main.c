@@ -19,12 +19,14 @@ void errorCallback(int error, const char* description) {
   fprintf(stderr, "GLFW Error [%d] %s\n", error, description);
 }
 
+/*
 void simpleDraw(NVGcontext* vg) {
   nvgBeginPath(vg);
   nvgRect(vg, 100, 100, 120, 30);
   nvgFillColor(vg, nvgRGBA(255, 192, 0, 255));
   nvgFill(vg);
 }
+*/
 
 void scriptUpdate(lua_State* lua, double t) {
   lua_getglobal(lua, "update");
@@ -41,9 +43,10 @@ void scriptDrawScene(lua_State* lua) {
   }
 }
 
-void scriptDrawUI(lua_State* lua) {
+void scriptDrawUI(lua_State* lua, NVGcontext* vg) {
   lua_getglobal(lua, "drawUI");
-  if (lua_pcall(lua, 0, 0, 0)) {
+  lua_pushlightuserdata(lua, vg);
+  if (lua_pcall(lua, 1, 0, 0)) {
     luaL_error(lua, lua_tostring(lua, -1));
   }
 }
@@ -118,7 +121,7 @@ int main(int argc, char* argv[]) {
     scriptDrawScene(lua);
 
     nvgBeginFrame(vg, win_width, win_height, px_ratio);
-    scriptDrawUI(lua);
+    scriptDrawUI(lua, vg);
     nvgEndFrame(vg);
 
     glfwSwapBuffers(window);
