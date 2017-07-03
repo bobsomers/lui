@@ -4,29 +4,22 @@
 
 #include <unistd.h>
 
-#include <epoxy/gl.h>
-#include <GLFW/glfw3.h>
-#include "nanovg.h"
-#define NANOVG_GL3_IMPLEMENTATION
-#include "nanovg_gl.h"
-
 #include <luajit-2.0/lua.h>
 #include <luajit-2.0/lauxlib.h>
 #include <luajit-2.0/lualib.h>
 #include <luajit-2.0/luajit.h>
 
+#include "gl.h"
+
+#include "nanovg.h"
+#define NANOVG_GL3_IMPLEMENTATION
+#include "nanovg_gl.h"
+
+#include "demo_scene.h"
+
 void errorCallback(int error, const char* description) {
   fprintf(stderr, "GLFW Error [%d] %s\n", error, description);
 }
-
-/*
-void simpleDraw(NVGcontext* vg) {
-  nvgBeginPath(vg);
-  nvgRect(vg, 100, 100, 120, 30);
-  nvgFillColor(vg, nvgRGBA(255, 192, 0, 255));
-  nvgFill(vg);
-}
-*/
 
 void scriptUpdate(lua_State* lua, double t) {
   lua_getglobal(lua, "update");
@@ -71,7 +64,7 @@ int main(int argc, char* argv[]) {
   }
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, 1);
@@ -101,16 +94,18 @@ int main(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
+  DemoScene* scene = demoSceneNew();
+
   while (!glfwWindowShouldClose(window)) {
     int win_width = 0;
     int win_height = 0;
     int fb_width = 0;
     int fb_height = 0;
-    float px_ratio = 0.0f;
-
     glfwGetWindowSize(window, &win_width, &win_height);
     glfwGetFramebufferSize(window, &fb_width, &fb_height);
-    px_ratio =  (float)fb_width / (float)win_width;
+
+    float px_ratio = (float)fb_width / (float)win_width;
+    float aspect_ratio = (float)win_width / (float)win_height;
 
     scriptUpdate(lua, glfwGetTime());
 
@@ -118,6 +113,12 @@ int main(int argc, char* argv[]) {
     glClearColor(0.3f, 0.3f, 0.32f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
+    // TODO: What to do about this? We probably want control to do this from
+    // Lua, but want to support workflows where all of this drawing is done in
+    // native code. Maybe allow the user to specify "load" and "draw" functions
+    // from a DLL that we will attempt to load if they want to implement
+    // everything in native code?
+    demoSceneDraw(scene, aspect_ratio);
     scriptDrawScene(lua);
 
     nvgBeginFrame(vg, win_width, win_height, px_ratio);
@@ -127,6 +128,8 @@ int main(int argc, char* argv[]) {
     glfwSwapBuffers(window);
     glfwPollEvents();
   }
+
+  demoSceneDelete(scene);
 
   nvgDeleteGL3(vg);
   glfwDestroyWindow(window);
