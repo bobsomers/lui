@@ -4,11 +4,6 @@
 
 #include <unistd.h>
 
-#include <luajit-2.0/lua.h>
-#include <luajit-2.0/lauxlib.h>
-#include <luajit-2.0/lualib.h>
-#include <luajit-2.0/luajit.h>
-
 #include "gl.h"
 
 #include "nanovg.h"
@@ -16,32 +11,10 @@
 #include "nanovg_gl.h"
 
 #include "demo_scene.h"
+#include "script_app.h"
 
 void errorCallback(int error, const char* description) {
   fprintf(stderr, "GLFW Error [%d] %s\n", error, description);
-}
-
-void scriptUpdate(lua_State* lua, double t) {
-  lua_getglobal(lua, "update");
-  lua_pushnumber(lua, t);
-  if (lua_pcall(lua, 1, 0, 0)) {
-    luaL_error(lua, lua_tostring(lua, -1));
-  }
-}
-
-void scriptDrawScene(lua_State* lua) {
-  lua_getglobal(lua, "drawScene");
-  if (lua_pcall(lua, 0, 0, 0)) {
-    luaL_error(lua, lua_tostring(lua, -1));
-  }
-}
-
-void scriptDrawUI(lua_State* lua, NVGcontext* vg) {
-  lua_getglobal(lua, "drawUI");
-  lua_pushlightuserdata(lua, vg);
-  if (lua_pcall(lua, 1, 0, 0)) {
-    luaL_error(lua, lua_tostring(lua, -1));
-  }
 }
 
 int main(int argc, char* argv[]) {
@@ -83,18 +56,14 @@ int main(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  lua_State* lua = luaL_newstate();
-  if (!lua) {
-    fprintf(stderr, "%s", "Failed to create LuaJIT interpreter!\n");
-    return EXIT_FAILURE;
-  }
-  luaL_openlibs(lua);
-  if (luaL_dofile(lua, "main.lua")) {
-    fprintf(stderr, "Script error: %s\n", lua_tostring(lua, -1));
+  ScriptApp* app = scriptAppNew("main.lua");
+  if (!app) {
     return EXIT_FAILURE;
   }
 
   DemoScene* scene = demoSceneNew();
+
+  scriptAppInit(app);
 
   while (!glfwWindowShouldClose(window)) {
     int win_width = 0;
@@ -107,7 +76,7 @@ int main(int argc, char* argv[]) {
     float px_ratio = (float)fb_width / (float)win_width;
     float aspect_ratio = (float)win_width / (float)win_height;
 
-    scriptUpdate(lua, glfwGetTime());
+    scriptAppUpdate(app, glfwGetTime());
 
     glViewport(0, 0, fb_width, fb_height);
     glClearColor(0.3f, 0.3f, 0.32f, 1.0f);
@@ -119,10 +88,9 @@ int main(int argc, char* argv[]) {
     // from a DLL that we will attempt to load if they want to implement
     // everything in native code?
     demoSceneDraw(scene, aspect_ratio);
-    scriptDrawScene(lua);
 
     nvgBeginFrame(vg, win_width, win_height, px_ratio);
-    scriptDrawUI(lua, vg);
+    scriptAppDraw(app, vg);
     nvgEndFrame(vg);
 
     glfwSwapBuffers(window);
@@ -130,6 +98,7 @@ int main(int argc, char* argv[]) {
   }
 
   demoSceneDelete(scene);
+  scriptAppDelete(app);
 
   nvgDeleteGL3(vg);
   glfwDestroyWindow(window);

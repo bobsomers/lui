@@ -1,4 +1,4 @@
-local ffi = require("ffi")
+local ffi = require "ffi"
 
 ffi.cdef [[
   typedef struct NVGcolor {
@@ -21,19 +21,17 @@ ffi.cdef [[
 
 box_width = 0
 
+function init()
+  print("Thermyte app init()!")
+end
+
 function update(t)
   box_width = ((math.sin(t) + 1) * 150) + 10
 end
 
-function drawScene()
-  -- TODO
-end
-
-function drawUI(vg)
+function draw(vg)
   ffi.C.nvgBeginPath(vg)
   ffi.C.nvgRect(vg, 100, 100, box_width, 30)
   ffi.C.nvgFillColor(vg, ffi.C.nvgRGBA(255, 192, 0, 255))
   ffi.C.nvgFill(vg)
 end
-
-print "Main script loaded!"
