@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
     return EXIT_FAILURE;
   }
 
-  ScriptApp* app = scriptAppNew("main.lua");
+  ScriptApp* app = scriptAppNew("main.lua", vg);
   if (!app) {
     return EXIT_FAILURE;
   }
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
     demoSceneDraw(scene, aspect_ratio);
 
     nvgBeginFrame(vg, win_width, win_height, px_ratio);
-    scriptAppDraw(app, vg);
+    scriptAppDraw(app);
     nvgEndFrame(vg);
 
     glfwSwapBuffers(window);

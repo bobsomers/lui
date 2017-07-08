@@ -21,15 +21,16 @@ ffi.cdef [[
 
 box_width = 0
 
-function init()
+function thermyte.init()
   print("Thermyte app init()!")
 end
 
-function update(t)
+function thermyte.update(t)
   box_width = ((math.sin(t) + 1) * 150) + 10
 end
 
-function draw(vg)
+function thermyte.draw()
+  local vg = thermyte._nano_vg
   ffi.C.nvgBeginPath(vg)
   ffi.C.nvgRect(vg, 100, 100, box_width, 30)
   ffi.C.nvgFillColor(vg, ffi.C.nvgRGBA(255, 192, 0, 255))

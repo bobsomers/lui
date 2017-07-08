@@ -4,11 +4,11 @@
 struct ScriptApp;
 typedef struct ScriptApp ScriptApp;
 
-ScriptApp* scriptAppNew();
+ScriptApp* scriptAppNew(const char* filename, void* nano_vg);
 void scriptAppDelete(ScriptApp* app);
 
 void scriptAppInit(ScriptApp* app);
 void scriptAppUpdate(ScriptApp* app, double t);
-void scriptAppDraw(ScriptApp* app, void* vg);
+void scriptAppDraw(ScriptApp* app);
 
 #endif /* THERMYTE_SCRIPT_APP_H */
