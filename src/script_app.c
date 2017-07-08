@@ -76,3 +76,47 @@ void scriptAppDraw(ScriptApp* app) {
   }
   lua_pop(l, 1);
 }
+
+void scriptAppMouseMoved(ScriptApp* app, double x, double y) {
+  lua_State* l = app->lua;
+  lua_getglobal(l, "thermyte");
+  lua_getfield(l, -1, "mouseMoved");
+  if (lua_isfunction(l, -1)) {
+    lua_pushnumber(l, x);
+    lua_pushnumber(l, y);
+    if (lua_pcall(l, 2, 0, 0)) {
+      luaL_error(l, "Script error: %s\n", lua_tostring(l, -1));
+    }
+  }
+  lua_pop(l, 1);
+}
+
+void scriptAppMousePressed(ScriptApp* app, double x, double y, int button) {
+  lua_State* l = app->lua;
+  lua_getglobal(l, "thermyte");
+  lua_getfield(l, -1, "mousePressed");
+  if (lua_isfunction(l, -1)) {
+    lua_pushnumber(l, x);
+    lua_pushnumber(l, y);
+    lua_pushnumber(l, button);
+    if (lua_pcall(l, 3, 0, 0)) {
+      luaL_error(l, "Script error: %s\n", lua_tostring(l, -1));
+    }
+  }
+  lua_pop(l, 1);
+}
+
+void scriptAppMouseReleased(ScriptApp* app, double x, double y, int button) {
+  lua_State* l = app->lua;
+  lua_getglobal(l, "thermyte");
+  lua_getfield(l, -1, "mouseReleased");
+  if (lua_isfunction(l, -1)) {
+    lua_pushnumber(l, x);
+    lua_pushnumber(l, y);
+    lua_pushnumber(l, button);
+    if (lua_pcall(l, 3, 0, 0)) {
+      luaL_error(l, "Script error: %s\n", lua_tostring(l, -1));
+    }
+  }
+  lua_pop(l, 1);
+}

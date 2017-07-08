@@ -36,3 +36,15 @@ function thermyte.draw()
   ffi.C.nvgFillColor(vg, ffi.C.nvgRGBA(255, 192, 0, 255))
   ffi.C.nvgFill(vg)
 end
+
+function thermyte.mouseMoved(x, y)
+  print("mouseMoved(" .. tostring(x) .. ", " .. tostring(y) .. ")")
+end
+
+function thermyte.mousePressed(x, y, button)
+  print("mousePressed(" .. tostring(x) .. ", " .. tostring(y) .. ", " .. button .. ")")
+end
+
+function thermyte.mouseReleased(x, y, button)
+  print("mouseReleased(" .. tostring(x) .. ", " .. tostring(y) .. ", " .. button .. ")")
+end

@@ -13,8 +13,34 @@
 #include "demo_scene.h"
 #include "script_app.h"
 
+typedef struct Thermyte {
+  ScriptApp* app;
+  GLFWwindow* window;
+} Thermyte;
+
+static Thermyte thermyte;
+
 void errorCallback(int error, const char* description) {
   fprintf(stderr, "GLFW Error [%d] %s\n", error, description);
+}
+
+void cursorPosCallback(GLFWwindow* window, double x, double y) {
+  scriptAppMouseMoved(thermyte.app, x, y);
+}
+
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+  double x = 0.0;
+  double y = 0.0;
+  glfwGetCursorPos(thermyte.window, &x, &y);
+
+  if (action == GLFW_PRESS) {
+    scriptAppMousePressed(thermyte.app, x, y, button);
+  } else if (action == GLFW_RELEASE) {
+    scriptAppMouseReleased(thermyte.app, x, y, button);
+  } else {
+    fprintf(stderr, "%s\n", "Unexpected action in mouse button callback!");
+    exit(EXIT_FAILURE);
+  }
 }
 
 int main(int argc, char* argv[]) {
@@ -47,6 +73,10 @@ int main(int argc, char* argv[]) {
     glfwTerminate();
     return EXIT_FAILURE;
   }
+  thermyte.window = window;
+
+  glfwSetCursorPosCallback(window, cursorPosCallback);
+  glfwSetMouseButtonCallback(window, mouseButtonCallback);
 
   glfwMakeContextCurrent(window);
 
@@ -60,6 +90,7 @@ int main(int argc, char* argv[]) {
   if (!app) {
     return EXIT_FAILURE;
   }
+  thermyte.app = app;
 
   DemoScene* scene = demoSceneNew();
 
