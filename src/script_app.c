@@ -46,7 +46,7 @@ void scriptAppInit(ScriptApp* app) {
   lua_getfield(l, -1, "init");
   if (lua_isfunction(l, -1)) {
     if (lua_pcall(l, 0, 0, 0)) {
-      luaL_error(l, "Script error: %s\n", lua_tostring(l, -1));
+      luaL_error(l, "%s", lua_tostring(l, -1));
     }
   }
   lua_pop(l, 1);
@@ -59,7 +59,7 @@ void scriptAppUpdate(ScriptApp* app, double t) {
   if (lua_isfunction(l, -1)) {
     lua_pushnumber(l, t);
     if (lua_pcall(l, 1, 0, 0)) {
-      luaL_error(l, "Script error: %s\n", lua_tostring(l, -1));
+      luaL_error(l, "%s", lua_tostring(l, -1));
     }
   }
   lua_pop(l, 1);
@@ -71,7 +71,7 @@ void scriptAppDraw(ScriptApp* app) {
   lua_getfield(l, -1, "draw");
   if (lua_isfunction(l, -1)) {
     if (lua_pcall(l, 0, 0, 0)) {
-      luaL_error(l, "Script error: %s\n", lua_tostring(l, -1));
+      luaL_error(l, "%s", lua_tostring(l, -1));
     }
   }
   lua_pop(l, 1);
@@ -85,7 +85,7 @@ void scriptAppMouseMoved(ScriptApp* app, double x, double y) {
     lua_pushnumber(l, x);
     lua_pushnumber(l, y);
     if (lua_pcall(l, 2, 0, 0)) {
-      luaL_error(l, "Script error: %s\n", lua_tostring(l, -1));
+      luaL_error(l, "%s", lua_tostring(l, -1));
     }
   }
   lua_pop(l, 1);
@@ -100,7 +100,7 @@ void scriptAppMousePressed(ScriptApp* app, double x, double y, int button) {
     lua_pushnumber(l, y);
     lua_pushnumber(l, button);
     if (lua_pcall(l, 3, 0, 0)) {
-      luaL_error(l, "Script error: %s\n", lua_tostring(l, -1));
+      luaL_error(l, "%s", lua_tostring(l, -1));
     }
   }
   lua_pop(l, 1);
@@ -115,7 +115,7 @@ void scriptAppMouseReleased(ScriptApp* app, double x, double y, int button) {
     lua_pushnumber(l, y);
     lua_pushnumber(l, button);
     if (lua_pcall(l, 3, 0, 0)) {
-      luaL_error(l, "Script error: %s\n", lua_tostring(l, -1));
+      luaL_error(l, "%s", lua_tostring(l, -1));
     }
   }
   lua_pop(l, 1);
