@@ -11,3 +11,4 @@
  - [ ] Vendor libepoxy
  - [ ] Vendor LuaJIT 2.0.5
  - [ ] Vendor GLFW 3.2.1
+ - [x] Vendor Yoga

@@ -23,20 +23,43 @@ solution "thermyte"
         "ExtraWarnings",
       }
 
+  project "yoga"
+    language "C"
+    kind "StaticLib"
+    includedirs { "deps/yoga/src" }
+    files { "deps/yoga/src/*.c" }
+    targetdir "build"
+
+    configuration "Debug"
+      defines { "DEBUG" }
+      flags {
+        "Symbols",
+        "ExtraWarnings",
+      }
+
+    configuration "Release"
+      defines { "NDEBUG " }
+      flags {
+        "OptimizeSpeed",
+        "ExtraWarnings",
+      }
+
   project "thermyte"
     kind "ConsoleApp"
     language "C"
     includedirs {
       "src",
       "deps/nanovg/src",
+      "deps/yoga/src",
     }
     files { "src/*.c" }
     targetdir "build"
     links {
       "epoxy",
       "glfw3",
+      "luajit",
       "nanovg",
-      "luajit"
+      "yoga",
     }
 
     configuration "Debug"
