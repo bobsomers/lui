@@ -282,6 +282,8 @@ static int YGDefaultLog(const YGConfigRef config,
                         YGLogLevel level,
                         const char *format,
                         va_list args) {
+  (void)config;
+  (void)node;
   switch (level) {
     case YGLogLevelError:
     case YGLogLevelFatal:
