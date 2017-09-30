@@ -1,4 +1,4 @@
-# Thermyte
+# Lui
 
 Build tools and visualizations for native code quickly.
 

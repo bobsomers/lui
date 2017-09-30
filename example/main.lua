@@ -1,8 +1,8 @@
-Widget = require "thermyte.widget"
-Button = require "thermyte.button"
-ToggleButton = require "thermyte.toggle_button"
+Widget = require "lui.widget"
+Button = require "lui.button"
+ToggleButton = require "lui.toggle_button"
 
-function thermyte.init()
+function lui.init()
   w = Widget {
     x = 100, y = 100,
     width = 80, height = 20,
@@ -19,28 +19,28 @@ function thermyte.init()
   }
 end
 
-function thermyte.update(t)
+function lui.update(t)
   w:update(t)
   b:update(t)
   tb:update(t)
 end
 
-function thermyte.draw()
+function lui.draw()
   w:draw()
   b:draw()
   tb:draw()
 end
 
 --[[
-function thermyte.mouseMoved(x, y)
+function lui.mouseMoved(x, y)
   print("mouseMoved(" .. tostring(x) .. ", " .. tostring(y) .. ")")
 end
 
-function thermyte.mousePressed(x, y, button)
+function lui.mousePressed(x, y, button)
   print("mousePressed(" .. tostring(x) .. ", " .. tostring(y) .. ", " .. button .. ")")
 end
 
-function thermyte.mouseReleased(x, y, button)
+function lui.mouseReleased(x, y, button)
   print("mouseReleased(" .. tostring(x) .. ", " .. tostring(y) .. ", " .. button .. ")")
 end
 ]]

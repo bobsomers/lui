@@ -1,5 +1,5 @@
-Class = require "thermyte.class"
-VG = require "thermyte.nanovg"
+Class = require "lui.class"
+VG = require "lui.nanovg"
 
 Widget = Class("Widget")
 

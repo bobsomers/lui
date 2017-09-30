@@ -1,4 +1,4 @@
-solution "thermyte"
+solution "lui"
   location "build"
   configurations { "Debug", "Release" }
 
@@ -44,7 +44,7 @@ solution "thermyte"
         "ExtraWarnings",
       }
 
-  project "thermyte"
+  project "lui"
     kind "ConsoleApp"
     language "C"
     includedirs {

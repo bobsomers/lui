@@ -24,7 +24,7 @@ ScriptApp* scriptAppNew(const char* filename, void* nano_vg) {
   lua_newtable(l);
   lua_pushlightuserdata(l, nano_vg);
   lua_setfield(l, -2, "_nano_vg");
-  lua_setglobal(l, "thermyte");
+  lua_setglobal(l, "lui");
 
   if (luaL_dofile(l, filename)) {
     fprintf(stderr, "Script error: %s\n", lua_tostring(l, -1));
@@ -42,7 +42,7 @@ void scriptAppDelete(ScriptApp* app) {
 
 void scriptAppInit(ScriptApp* app) {
   lua_State* l = app->lua;
-  lua_getglobal(l, "thermyte");
+  lua_getglobal(l, "lui");
   lua_getfield(l, -1, "init");
   if (lua_isfunction(l, -1)) {
     if (lua_pcall(l, 0, 0, 0)) {
@@ -54,7 +54,7 @@ void scriptAppInit(ScriptApp* app) {
 
 void scriptAppUpdate(ScriptApp* app, double t) {
   lua_State* l = app->lua;
-  lua_getglobal(l, "thermyte");
+  lua_getglobal(l, "lui");
   lua_getfield(l, -1, "update");
   if (lua_isfunction(l, -1)) {
     lua_pushnumber(l, t);
@@ -67,7 +67,7 @@ void scriptAppUpdate(ScriptApp* app, double t) {
 
 void scriptAppDraw(ScriptApp* app) {
   lua_State* l = app->lua;
-  lua_getglobal(l, "thermyte");
+  lua_getglobal(l, "lui");
   lua_getfield(l, -1, "draw");
   if (lua_isfunction(l, -1)) {
     if (lua_pcall(l, 0, 0, 0)) {
@@ -79,7 +79,7 @@ void scriptAppDraw(ScriptApp* app) {
 
 void scriptAppMouseMoved(ScriptApp* app, double x, double y) {
   lua_State* l = app->lua;
-  lua_getglobal(l, "thermyte");
+  lua_getglobal(l, "lui");
   lua_getfield(l, -1, "mouseMoved");
   if (lua_isfunction(l, -1)) {
     lua_pushnumber(l, x);
@@ -93,7 +93,7 @@ void scriptAppMouseMoved(ScriptApp* app, double x, double y) {
 
 void scriptAppMousePressed(ScriptApp* app, double x, double y, int button) {
   lua_State* l = app->lua;
-  lua_getglobal(l, "thermyte");
+  lua_getglobal(l, "lui");
   lua_getfield(l, -1, "mousePressed");
   if (lua_isfunction(l, -1)) {
     lua_pushnumber(l, x);
@@ -108,7 +108,7 @@ void scriptAppMousePressed(ScriptApp* app, double x, double y, int button) {
 
 void scriptAppMouseReleased(ScriptApp* app, double x, double y, int button) {
   lua_State* l = app->lua;
-  lua_getglobal(l, "thermyte");
+  lua_getglobal(l, "lui");
   lua_getfield(l, -1, "mouseReleased");
   if (lua_isfunction(l, -1)) {
     lua_pushnumber(l, x);

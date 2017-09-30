@@ -3,7 +3,7 @@ local ffi = require "ffi"
 local nanovg = {}
 
 function nanovg.context()
-  return thermyte._nano_vg
+  return lui._nano_vg
 end
 
 ffi.cdef [[

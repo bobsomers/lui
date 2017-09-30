@@ -13,12 +13,12 @@
 #include "demo_scene.h"
 #include "script_app.h"
 
-typedef struct Thermyte {
+typedef struct Lui {
   ScriptApp* app;
   GLFWwindow* window;
-} Thermyte;
+} Lui;
 
-static Thermyte thermyte;
+static Lui lui;
 
 void errorCallback(int error, const char* description) {
   fprintf(stderr, "GLFW Error [%d] %s\n", error, description);
@@ -26,7 +26,7 @@ void errorCallback(int error, const char* description) {
 
 void cursorPosCallback(GLFWwindow* window, double x, double y) {
   (void)window;
-  scriptAppMouseMoved(thermyte.app, x, y);
+  scriptAppMouseMoved(lui.app, x, y);
 }
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
@@ -35,12 +35,12 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
 
   double x = 0.0;
   double y = 0.0;
-  glfwGetCursorPos(thermyte.window, &x, &y);
+  glfwGetCursorPos(lui.window, &x, &y);
 
   if (action == GLFW_PRESS) {
-    scriptAppMousePressed(thermyte.app, x, y, button);
+    scriptAppMousePressed(lui.app, x, y, button);
   } else if (action == GLFW_RELEASE) {
-    scriptAppMouseReleased(thermyte.app, x, y, button);
+    scriptAppMouseReleased(lui.app, x, y, button);
   } else {
     fprintf(stderr, "%s\n", "Unexpected action in mouse button callback!");
     exit(EXIT_FAILURE);
@@ -72,12 +72,12 @@ int main(int argc, char* argv[]) {
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, 1);
 
-  GLFWwindow* window = glfwCreateWindow(960, 540, "Thermyte", NULL, NULL);
+  GLFWwindow* window = glfwCreateWindow(960, 540, "Lui", NULL, NULL);
   if (!window) {
     glfwTerminate();
     return EXIT_FAILURE;
   }
-  thermyte.window = window;
+  lui.window = window;
 
   glfwSetCursorPosCallback(window, cursorPosCallback);
   glfwSetMouseButtonCallback(window, mouseButtonCallback);
@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
   if (!app) {
     return EXIT_FAILURE;
   }
-  thermyte.app = app;
+  lui.app = app;
 
   DemoScene* scene = demoSceneNew();
 

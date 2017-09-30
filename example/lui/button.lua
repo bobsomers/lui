@@ -1,5 +1,5 @@
-Class = require "thermyte.class"
-Widget = require "thermyte.widget"
+Class = require "lui.class"
+Widget = require "lui.widget"
 
 Button = Class("Button", Widget)
 
