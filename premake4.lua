@@ -56,7 +56,7 @@ solution "thermyte"
     targetdir "build"
     links {
       "epoxy",
-      "glfw3",
+      "glfw",
       "luajit",
       "nanovg",
       "yoga",

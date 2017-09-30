@@ -25,10 +25,14 @@ void errorCallback(int error, const char* description) {
 }
 
 void cursorPosCallback(GLFWwindow* window, double x, double y) {
+  (void)window;
   scriptAppMouseMoved(thermyte.app, x, y);
 }
 
 void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+  (void)window;
+  (void)mods;
+
   double x = 0.0;
   double y = 0.0;
   glfwGetCursorPos(thermyte.window, &x, &y);
