@@ -55,9 +55,9 @@ solution "lui"
     files { "src/*.c" }
     targetdir "build"
     links {
+      "m",
       "epoxy",
       "glfw",
-      "luajit",
       "nanovg",
       "yoga",
     }
@@ -86,4 +86,12 @@ solution "lui"
         "-framework Carbon",
         "-pagezero_size 10000",
         "-image_base 100000000",
+      }
+      links {
+        "luajit",
+      }
+
+    configuration { "linux" }
+      linkoptions {
+        "-Wl,-export-dynamic -lluajit-5.1",
       }
